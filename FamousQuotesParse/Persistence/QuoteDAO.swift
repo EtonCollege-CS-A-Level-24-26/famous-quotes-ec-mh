@@ -1,5 +1,5 @@
 //
-//  QuoteDao.swift
+//  QuoteDAO.swift
 //  FamousQuotesParse
 //
 //  Created by Cormell, David - DPC on 18/03/2025.
@@ -8,7 +8,7 @@
 import Foundation
 import ParseSwift
 
-struct QuoteDao: ParseObject {
+struct QuoteDAO: ParseObject {
     //Parse protocol properties
     var originalData: Data?
     var objectId: String?
