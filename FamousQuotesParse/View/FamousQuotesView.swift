@@ -15,6 +15,14 @@ struct ContentView: View {
             List {
                 ForEach(vm.quotes) { quote in
                     Text(quote.content)
+                    .swipeActions {
+                        Button(role: .destructive) {
+                            vm.deleteQuote(quote: quote)
+                        } label: {
+                            Image(systemName: "trash")
+                        }
+
+                    }
                 }
             }
             .onAppear {

@@ -13,7 +13,7 @@ class QuoteRepository {
     private init() {}
     
     func saveQuote(quote: Quote) {
-        let quoteDao = QuoteDao(author: quote.author, content: quote.content)
+        let quoteDao = QuoteDAO(author: quote.author, content: quote.content)
         do {
             try quoteDao.save()
         } catch {
@@ -22,7 +22,7 @@ class QuoteRepository {
     }
     
     func getAllQuotes(completion: @escaping ([Quote]) -> Void) {
-        let query = QuoteDao.query()
+        let query = QuoteDAO.query().order([.descending("createdAt")])
         query.find() { response in
             let quotes: [Quote] = (try? response.get())?.compactMap({
                 guard let author = $0.author, let content = $0.content else { return nil }
@@ -31,6 +31,26 @@ class QuoteRepository {
             
             completion(quotes)
             
+        }
+    }
+    
+    func deleteQuote(id: String) {
+        let query = QuoteDAO.query()
+        query.find() { response in
+            do {
+                let items = try response.get()
+                
+                for item in items {
+                    guard let author = item.author, let content = item.content else { return }
+                    if ("\(author)\(content)" == id) {
+                        do {
+                            try item.delete()
+                        } catch {
+                            print(error.localizedDescription)
+                        }
+                    }
+                }
+            } catch { }
         }
     }
 }

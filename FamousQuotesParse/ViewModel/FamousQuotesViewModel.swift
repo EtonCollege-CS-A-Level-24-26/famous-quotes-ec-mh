@@ -30,10 +30,14 @@ class FamousQuotesViewModel {
     
     func addNewQuote() {
         let quote = Quote(author: newQuoteAuthor, content: newQuoteContent)
-        quotes.append(quote)
+        quotes.insert(quote, at: 0)
         QuoteRepository.shared.saveQuote(quote: quote)
         newQuoteAuthor = ""
         newQuoteContent = ""
         isShowingAddQuote = false
+    }
+    
+    func deleteQuote(quote: Quote) {
+        QuoteRepository.shared.deleteQuote(id: quote.id)
     }
 }
